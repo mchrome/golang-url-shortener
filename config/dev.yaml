@@ -1,0 +1,6 @@
+env: "dev"
+storage_path: "postgres://dbuser:pass@database:5432/dbname"
+http_server:
+  address: "0.0.0.0:8080"
+  timeout: 4s
+  idle_timeout: 60s
