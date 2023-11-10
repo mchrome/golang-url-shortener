@@ -4,16 +4,18 @@ import (
 	"errors"
 	"fmt"
 	"log/slog"
+	"net/http"
 	"os"
 
 	"github.com/go-chi/chi"
 	"github.com/go-chi/chi/middleware"
-	"github.com/mchrome/url-compression-api/internal/app/apiserver"
+	"github.com/mchrome/url-compression-api/internal/app/apiserver/config"
 	save "github.com/mchrome/url-compression-api/internal/app/apiserver/handlers/url"
 	"github.com/mchrome/url-compression-api/internal/app/lib/logger/sl"
 	storage "github.com/mchrome/url-compression-api/internal/app/store"
-	"github.com/mchrome/url-compression-api/internal/config"
 )
+
+// TODO: clean up main, move everything to apiserver.go
 
 func main() {
 	// load config
@@ -50,8 +52,15 @@ func main() {
 
 	log.Info("starting server", slog.String("address", cfg.Address))
 
-	server := apiserver.New()
-	if err := server.Start(); err != nil {
+	server := &http.Server{
+		Addr:         cfg.Address,
+		Handler:      router,
+		ReadTimeout:  cfg.HTTPServer.Timeout,
+		WriteTimeout: cfg.HTTPServer.Timeout,
+		IdleTimeout:  cfg.HTTPServer.IdleTimeout,
+	}
+
+	if err := server.ListenAndServe(); err != nil {
 		log.Error("can't start api server")
 		return
 	}
