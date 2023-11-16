@@ -10,6 +10,7 @@ import (
 	"github.com/go-chi/chi"
 	"github.com/go-chi/chi/middleware"
 	"github.com/mchrome/url-compression-api/internal/app/apiserver/config"
+	"github.com/mchrome/url-compression-api/internal/app/apiserver/handlers/redirect"
 	save "github.com/mchrome/url-compression-api/internal/app/apiserver/handlers/url"
 	"github.com/mchrome/url-compression-api/internal/app/lib/logger/sl"
 	storage "github.com/mchrome/url-compression-api/internal/app/store"
@@ -46,9 +47,11 @@ func main() {
 	// middleware
 	router.Use(middleware.RequestID)
 	router.Use(middleware.Logger)
+	router.Use(middleware.URLFormat)
 
 	// define api endpoints
 	router.Post("/url", save.New(log, storage))
+	router.Get("/{alias}", redirect.New(log, storage))
 
 	log.Info("starting server", slog.String("address", cfg.Address))
 
