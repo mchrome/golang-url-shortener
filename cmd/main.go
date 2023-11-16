@@ -9,9 +9,9 @@ import (
 
 	"github.com/go-chi/chi"
 	"github.com/go-chi/chi/middleware"
-	"github.com/mchrome/url-compression-api/internal/app/apiserver/config"
 	"github.com/mchrome/url-compression-api/internal/app/apiserver/handlers/redirect"
 	save "github.com/mchrome/url-compression-api/internal/app/apiserver/handlers/url"
+	"github.com/mchrome/url-compression-api/internal/app/config"
 	"github.com/mchrome/url-compression-api/internal/app/lib/logger/sl"
 	storage "github.com/mchrome/url-compression-api/internal/app/store"
 )
