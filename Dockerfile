@@ -1,7 +1,6 @@
 FROM golang:1.21.1-alpine
 
 ENV GOPATH=/
-#ENV CONFIG_PATH=/go/config/container.yaml
 
 COPY . .
 
