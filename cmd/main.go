@@ -49,8 +49,15 @@ func main() {
 	router.Use(middleware.Logger)
 	router.Use(middleware.URLFormat)
 
-	// define api endpoints
-	router.Post("/url", save.New(log, storage))
+	// define route patterns
+
+	router.Route("/url", func(r chi.Router) {
+		r.Use(middleware.BasicAuth("url-compression-api", map[string]string{
+			cfg.HTTPServer.User: cfg.HTTPServer.Password,
+		}))
+		router.Post("/", save.New(log, storage))
+	})
+
 	router.Get("/{alias}", redirect.New(log, storage))
 
 	log.Info("starting server", slog.String("address", cfg.Address))
