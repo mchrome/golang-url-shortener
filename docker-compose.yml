@@ -11,7 +11,7 @@ services:
       - DB_NAME=${DB_NAME}
       - DB_USER=${DB_USER}
       - DB_PASS=${DB_PASS}
-      - CONFIG_PATH=/go/config/local.yaml
+      - CONFIG_PATH=/go/config/dev.yaml
     command: >
       sh -c "./url-compression-api"
 

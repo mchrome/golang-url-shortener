@@ -39,8 +39,6 @@ func main() {
 		os.Exit(1)
 	}
 
-	fmt.Println(storage)
-
 	// router init
 	router := chi.NewRouter()
 
@@ -51,8 +49,8 @@ func main() {
 
 	// define route patterns
 
-	router.Route("/url", func(r chi.Router) {
-		r.Use(middleware.BasicAuth("url-compression-api", map[string]string{
+	router.Route("/url", func(router chi.Router) {
+		router.Use(middleware.BasicAuth("url-compression-api", map[string]string{
 			cfg.HTTPServer.User: cfg.HTTPServer.Password,
 		}))
 		router.Post("/", save.New(log, storage))

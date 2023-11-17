@@ -34,8 +34,9 @@ func NewStorage(dbUrl string) (*Storage, error) {
 func (s *Storage) PrepareUrlTable() error {
 
 	query := `
+		DROP TABLE IF EXISTS url;
 		CREATE TABLE IF NOT EXISTS url(
-			id INTEGER PRIMARY KEY,
+			id BIGSERIAL PRIMARY KEY,
 			alias TEXT NOT NULL UNIQUE,
 			url TEXT NOT NULL
 		);
